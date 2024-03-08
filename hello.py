@@ -35,11 +35,16 @@ def index():
     form = NameForm()
     if form.validate_on_submit():
         old_name = session.get('name')
+        old_lastname = session.get('lastname')
         old_EducationIntitute = session.get('EducationIntitute')
+        old_subject = session.get('subject')
         session['name'] = form.name.data
+        session['lastname'] = form.lastname.data
         session['EducationIntitute'] = form.EducationIntitute.data
+        session['subject'] = form.subject.data
+        
         return redirect(url_for('index'))
-    return render_template('index.html', form=form, name=session.get('name'), EducationIntitute=session.get('EducationIntitute') )
+    return render_template('index.html', form=form, name=session.get('name'), lastname=session.get('lastname'), EducationIntitute=session.get('EducationIntitute'), subject=session.get('subject') )
 
 
        
