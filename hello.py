@@ -35,18 +35,15 @@ def index():
     form = NameForm()
     if form.validate_on_submit():
         old_name = session.get('name')
-        if old_name is not None and old_name != form.name.data:
-            flash('Looks like you have changed your name!')
-        session['name'] = form.name.data
-        return redirect(url_for('index'))
-
-    if form.validate_on_submit():
         old_EducationIntitute = session.get('EducationIntitute')
+        if old_name is not None and old_name != form.name.data:
+             session['name'] = form.name.data
         if old_EducationIntitute is not None and old_EducationIntitute != form.EducationIntitute.data:
             flash('Looks like you have changed something!!')
-        session['EducationIntitute'] = form.EducationIntitute.data
-
+        
+            session['EducationIntitute'] = form.EducationIntitute.data
         return redirect(url_for('index'))
+
     return render_template('index.html', form=form, name=session.get('name'), EducationIntitute=session.get('EducationIntitute') )
 
 
