@@ -1,9 +1,11 @@
-from flask import Flask, render_template, session, redirect, url_for, flash
+from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import DataRequired
+from datetime import datetime
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hard to guess string'
@@ -16,7 +18,7 @@ class NameForm(FlaskForm):
     name = StringField('Informe seu nome:', validators=[DataRequired()])
     lastname = StringField('Informe seu sobrenome:', validators=[DataRequired()])
     EducationIntitute = StringField('Informe sua instituição de ensino:', validators=[DataRequired()])
-    subject = StringField('Informe sua instituição de ensino:', validators=[DataRequired()])
+    subject = SelectField('Informe sua instituição de ensino:', choices= [('dswa5', 'DSWA5'), ('dwba4', 'DWBA4'), ('gpsa5', 'Gestão de projetos')])
     submit = SubmitField('Submit')
 
 
@@ -44,7 +46,12 @@ def index():
         session['subject'] = form.subject.data
         
         return redirect(url_for('index'))
-    return render_template('index.html', form=form, name=session.get('name'), lastname=session.get('lastname'), EducationIntitute=session.get('EducationIntitute'), subject=session.get('subject') )
+    
+    url = request.remote_addr
+    ip = request.host_url
+
+    return render_template('index.html', form=form, name=session.get('name'), lastname=session.get('lastname'), EducationIntitute=session.get('EducationIntitute'), subject=session.get('subject'), url=url, ip=ip, current_time=datetime.utcnow() )
+
 
 
        
